@@ -31,4 +31,15 @@ public class ImageController {
 				.body(BasicResponse.create(HttpStatus.CREATED.value(), "Profile Picture is Updated"));
 	}
 	
+	@PostMapping("/fetch-image")
+	public ResponseEntity<byte[]> fetchImage(@RequestParam ("imageId") int imageId){
+		
+		Image image = imageService.fetchImage(imageId);
+		
+		return ResponseEntity.status(HttpStatus.OK)
+				.contentType(MediaType.valueOf(image.getContentType()))
+				.body(image.getImageBytes());
+		
+	}
+	
 }
