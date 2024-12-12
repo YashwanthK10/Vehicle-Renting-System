@@ -4,11 +4,20 @@ import com.example.vms.enums.UserRole;
 
 public class UserResponse {
 	
+	private int userId;
 	private String username;
 	private String email;
 	private long phoneNumber;
 	private UserRole role;
 	
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -41,6 +50,4 @@ public class UserResponse {
 		this.role = role;
 	}
 	
-	
-
 }

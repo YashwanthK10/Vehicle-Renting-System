@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vms.entity.User;
+import com.example.vms.requestdto.UserRequest;
+import com.example.vms.responsedto.UserResponse;
 import com.example.vms.service.UserService;
 import com.example.vms.util.ResponseStructure;
 
@@ -27,5 +29,11 @@ public class UserController {
 				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", user));
 	}
 	
-	
+	@PostMapping("/register")
+	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@RequestBody UserRequest userRequest){
+		UserResponse userResponse = userService.saveUser(userRequest);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", userResponse));
+		
+	}
 }
