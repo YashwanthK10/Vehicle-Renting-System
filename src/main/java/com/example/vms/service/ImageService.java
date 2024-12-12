@@ -51,6 +51,6 @@ public class ImageService {
 		catch(Exception e) {
 			throw new FailedToUploadException("Failed to get image");
 		}
-	}
+	}	
 	
 }
