@@ -3,6 +3,7 @@ package com.example.vms.entity;
 import com.example.vms.enums.UserRole;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,7 +21,7 @@ public class User {
 	private String password;
 	private UserRole role;
 	
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	private Image profilePicture;
 	
 	public int getUserId() {
