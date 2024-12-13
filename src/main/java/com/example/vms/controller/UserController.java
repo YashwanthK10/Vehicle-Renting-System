@@ -4,11 +4,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vms.entity.User;
+import com.example.vms.enums.UserRole;
 import com.example.vms.requestdto.UserRequest;
 import com.example.vms.responsedto.UserResponse;
 import com.example.vms.service.UserService;
@@ -31,12 +33,18 @@ public class UserController {
 				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", user));
 	}
 	
-	@PostMapping("/register")
-	public ResponseEntity<ResponseStructure<UserResponse>> saveUser(@RequestBody UserRequest userRequest){
-		UserResponse userResponse = userService.saveUser(userRequest);
+	@PostMapping("/customer-register")
+	public ResponseEntity<ResponseStructure<UserResponse>> registerCustomer(@RequestBody UserRequest userRequest){
+		UserResponse userResponse = userService.registerCustomer(userRequest, UserRole.CUSTOMER);
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", userResponse));
-		
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Customer role is Created", userResponse));
+	}
+	
+	@PostMapping("/renting-partner-register")
+	public ResponseEntity<ResponseStructure<UserResponse>> registerRentingPartner(@RequestParam UserRequest userRequest){
+		UserResponse userResponse = userService.registerRentingPartner(userRequest, UserRole.RENTING_PARTNER);
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "RentingPartner role is created", userResponse));
 	}
 	
 	@GetMapping("/fetch-user")
@@ -44,6 +52,6 @@ public class UserController {
 		UserResponse response = userService.getUserWithImage(userId);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(ResponseStructure.create(HttpStatus.OK.value(), "User Fetched successfully", response));
-		
 	}
+	
 }

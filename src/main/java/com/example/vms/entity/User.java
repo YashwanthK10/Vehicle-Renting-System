@@ -3,6 +3,8 @@ package com.example.vms.entity;
 import com.example.vms.enums.UserRole;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +21,8 @@ public class User {
 	private String email;
 	private long phoneNumber;
 	private String password;
+	
+	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
 	@OneToOne(fetch = FetchType.LAZY)
