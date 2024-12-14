@@ -10,28 +10,12 @@ import com.example.vms.responsedto.UserResponse;
 @Component
 public class UserMapper {
 
-	public User mapToCustomer(UserRequest request, UserRole role) {
-
-		User user = new User();
+	public User mapToUser(UserRequest request, User user) {
 
 		user.setUsername(request.getUsername());
 		user.setEmail(request.getEmail());
-		user.setPassword(request.getPassword());
 		user.setPhoneNumber(request.getPhoneNumber());
-		user.setRole(role);
-
-		return user;
-	}
-
-	public User mapToRentingPartner(UserRequest request, UserRole role) {
-		
-		User user = new User();
-
-		user.setUsername(request.getUsername());
-		user.setEmail(request.getEmail());
 		user.setPassword(request.getPassword());
-		user.setPhoneNumber(request.getPhoneNumber());
-		user.setRole(role);
 
 		return user;
 	}
