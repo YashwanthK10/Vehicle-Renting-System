@@ -18,40 +18,43 @@ import com.example.vms.util.ResponseStructure;
 
 @RestController
 public class UserController {
-	
+
 	private final UserService userService;
 
 	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
-	
-	@PostMapping("/save-user")
-	public ResponseEntity<ResponseStructure<User>> saveUser(@RequestBody User user){
-		user = userService.saveUser(user);
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "User Created", user));
-	}
-	
+
 	@PostMapping("/customer-register")
-	public ResponseEntity<ResponseStructure<UserResponse>> registerCustomer(@RequestBody UserRequest userRequest){
-		UserResponse userResponse = userService.registerCustomer(userRequest, UserRole.CUSTOMER);
+	public ResponseEntity<ResponseStructure<UserResponse>> registerCustomer(@RequestBody UserRequest request) {
+		UserResponse response = userService.register(request, UserRole.CUSTOMER);
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Customer role is Created", userResponse));
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Customer Created", response));
+
 	}
-	
+
 	@PostMapping("/renting-partner-register")
-	public ResponseEntity<ResponseStructure<UserResponse>> registerRentingPartner(@RequestParam UserRequest userRequest){
-		UserResponse userResponse = userService.registerRentingPartner(userRequest, UserRole.RENTING_PARTNER);
+	public ResponseEntity<ResponseStructure<UserResponse>> registerRentingPartner(@RequestBody UserRequest request) {
+		UserResponse response = userService.register(request, UserRole.RENTING_PARTNER);
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "RentingPartner role is created", userResponse));
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Renting Partner Created", response));
+
 	}
-	
+
 	@GetMapping("/fetch-user")
-	public ResponseEntity<ResponseStructure<UserResponse>> getUserWithImage(@RequestParam ("userId") int userId){
+	public ResponseEntity<ResponseStructure<UserResponse>> getUserWithImage(@RequestParam("userId") int userId) {
 		UserResponse response = userService.getUserWithImage(userId);
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(ResponseStructure.create(HttpStatus.OK.value(), "User Fetched successfully", response));
 	}
-	
+
+	@PutMapping("/update-user")
+	public ResponseEntity<ResponseStructure<UserResponse>> updateUser(@RequestBody UserRequest request,
+			@RequestParam int userId) {
+		UserResponse response = userService.updateUser(request, userId);
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(ResponseStructure.create(HttpStatus.OK.value(), "User Updated", response));
+	}
+
 }
