@@ -2,6 +2,7 @@ package com.example.vms.service;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.vms.entity.User;
@@ -17,16 +18,20 @@ public class UserService {
 
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
+	private final PasswordEncoder passwordEncoder;
+	
 
-	public UserService(UserRepository userRepository, UserMapper userMapper) {
+	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
 		super();
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	public UserResponse register(UserRequest request, UserRole role) {
 
 		User user = userMapper.mapToUser(request, new User());
+		user.setPassword(passwordEncoder.encode(user.getPassword())); // this line encode the user password
 		user.setRole(role);
 		User savedUser = userRepository.save(user);
 		return userMapper.mapToUserResponse(savedUser);
