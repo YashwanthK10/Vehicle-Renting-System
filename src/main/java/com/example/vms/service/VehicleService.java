@@ -29,7 +29,8 @@ public class VehicleService {
 		Optional<Vehicle> optional = vehicleRepository.findById(vehicle.getVehicleId());
 
 		if (optional.isPresent()) {
-			return vehicleRepository.save(vehicle);
+		 return vehicleRepository.save(vehicle);
+		 
 		} else {
 			throw new VehicleNotFoundExcepction("Failed to find the Vehicle");
 		}

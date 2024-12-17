@@ -34,9 +34,9 @@ public class VehicleController {
 	}
 
 	@PutMapping("/update-vehicle")
-	public ResponseEntity<ResponseStructure<Vehicle>> updateVehicle(@RequestBody Vehicle vehicle) {
+	public ResponseEntity<ResponseStructure<Vehicle>> updateVehicle(@RequestBody int vehicleId) {
 
-		vehicle = vehicleService.updateVehicle(vehicle);
+		Vehicle vehicle = vehicleService.updateVehicle(vehicleId);
 
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(ResponseStructure.create(HttpStatus.OK.value(), "Updated Successfully", vehicle));

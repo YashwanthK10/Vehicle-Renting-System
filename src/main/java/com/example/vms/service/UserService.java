@@ -70,6 +70,7 @@ public class UserService {
 		if (optional.isPresent()) {
 			
 			User user = userMapper.mapToUser(request, optional.get());
+			user.setPassword(passwordEncoder.encode(user.getPassword())); 
 			userRepository.save(user);
 
 			UserResponse response = userMapper.mapToUserResponse(user);
