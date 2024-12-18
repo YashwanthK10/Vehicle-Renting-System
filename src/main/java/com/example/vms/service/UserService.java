@@ -21,9 +21,9 @@ public class UserService {
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
 	private final AuthUtil authUtil;
-	
 
-	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, AuthUtil authUtil) {
+	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder,
+			AuthUtil authUtil) {
 		super();
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
@@ -45,14 +45,13 @@ public class UserService {
 		Optional<User> optional = userRepository.findById(userId);
 
 		if (optional.isPresent()) {
-			
+
 			User user = optional.get();
 			UserResponse response = userMapper.mapToUserResponse(user);
 			this.setProfilePictureURL(response, user.getUserId());
-			
+
 			return response;
-		} 
-		else {
+		} else {
 			throw new UserNotFoundException("User not found with given id: " + userId);
 		}
 
@@ -69,9 +68,13 @@ public class UserService {
 	public UserResponse updateUser(UserRequest request) {
 
 		User user = authUtil.getCurrentUser();
-		UserResponse response = userMapper.mapToUserResponse(user);			
-		return response;
-		
+
+		user = userMapper.mapToUser(request, user);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+		user = userRepository.save(user);
+		UserResponse userresponse = userMapper.mapToUserResponse(user);
+		return userresponse;
 
 	}
 
