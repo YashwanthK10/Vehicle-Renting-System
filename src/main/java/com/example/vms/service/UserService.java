@@ -12,6 +12,7 @@ import com.example.vms.mapper.UserMapper;
 import com.example.vms.repository.UserRepository;
 import com.example.vms.requestdto.UserRequest;
 import com.example.vms.responsedto.UserResponse;
+import com.example.vms.security.AuthUtil;
 
 @Service
 public class UserService {
@@ -19,13 +20,15 @@ public class UserService {
 	private final UserRepository userRepository;
 	private final UserMapper userMapper;
 	private final PasswordEncoder passwordEncoder;
-	
+	private final AuthUtil authUtil;
 
-	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
+	public UserService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder,
+			AuthUtil authUtil) {
 		super();
 		this.userRepository = userRepository;
 		this.userMapper = userMapper;
 		this.passwordEncoder = passwordEncoder;
+		this.authUtil = authUtil;
 	}
 
 	public UserResponse register(UserRequest request, UserRole role) {
@@ -42,14 +45,13 @@ public class UserService {
 		Optional<User> optional = userRepository.findById(userId);
 
 		if (optional.isPresent()) {
-			
+
 			User user = optional.get();
 			UserResponse response = userMapper.mapToUserResponse(user);
 			this.setProfilePictureURL(response, user.getUserId());
-			
+
 			return response;
-		} 
-		else {
+		} else {
 			throw new UserNotFoundException("User not found with given id: " + userId);
 		}
 
@@ -63,23 +65,16 @@ public class UserService {
 
 	}
 
-	public UserResponse updateUser(UserRequest request, int userId) {
+	public UserResponse updateUser(UserRequest request) {
 
-		Optional<User> optional = userRepository.findById(userId);
+		User user = authUtil.getCurrentUser();
 
-		if (optional.isPresent()) {
-			
-			User user = userMapper.mapToUser(request, optional.get());
-			userRepository.save(user);
+		user = userMapper.mapToUser(request, user);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-			UserResponse response = userMapper.mapToUserResponse(user);
-			this.setProfilePictureURL(response, userId);
-			
-			return response;
-		} 
-		else {
-			throw new UserNotFoundException("Failed To Find The User");
-		}
+		user = userRepository.save(user);
+		UserResponse userresponse = userMapper.mapToUserResponse(user);
+		return userresponse;
 
 	}
 
