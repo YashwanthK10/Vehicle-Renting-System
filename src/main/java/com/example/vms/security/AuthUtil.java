@@ -32,7 +32,6 @@ public class AuthUtil {
 	public User getCurrentUser() {
 		return userRepository.findByEmail(getCurrentUsername())
 				.orElseThrow(() -> new UsernameNotFoundException("Failed to get current User"));
-
 	}
 
 }
