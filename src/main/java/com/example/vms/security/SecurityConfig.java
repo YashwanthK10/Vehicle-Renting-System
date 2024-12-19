@@ -23,7 +23,7 @@ public class SecurityConfig {
 		return http
 			.csrf(csrf -> csrf.disable()) // csrf - cross-site request forgery - csrf means it is a token mechanism where it will protect from csrf attacks from hackers.            
 			.authorizeHttpRequests(authorize -> authorize
-														.requestMatchers("/customer-register", "/renting-partner-register", "/find-all-vehicle") // find-all-vehicles
+														.requestMatchers("/customer-register", "/renting-partner-register", "/find-all-vehicle", "/admin-register") // find-all-vehicles
 														.permitAll()
 														.anyRequest()
 														.authenticated())

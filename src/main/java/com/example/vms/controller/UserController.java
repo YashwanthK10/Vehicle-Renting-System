@@ -25,6 +25,16 @@ public class UserController {
 		super();
 		this.userService = userService;
 	}
+	
+	@PostMapping("/admin-register")
+	public ResponseEntity<ResponseStructure<UserResponse>> registerAdmin(@RequestBody UserRequest request) {
+
+		UserResponse response = userService.register(request, UserRole.ADMIN);
+
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Admin created", response));
+
+	}
 
 	@PostMapping("/customer-register")
 	public ResponseEntity<ResponseStructure<UserResponse>> registerCustomer(@RequestBody UserRequest request) {
