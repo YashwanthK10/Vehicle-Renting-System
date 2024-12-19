@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.vms.entity.Vehicle;
+import com.example.vms.requestdto.VehicleRequest;
+import com.example.vms.responsedto.VehicleResponse;
 import com.example.vms.service.VehicleService;
 import com.example.vms.util.ResponseStructure;
 
@@ -25,21 +28,13 @@ public class VehicleController {
 	}
 	
 	@PostMapping("/save-vehicle")
-	public ResponseEntity<ResponseStructure<Vehicle>> addVehicle(@RequestBody Vehicle vehicle) {
+	public ResponseEntity<ResponseStructure<VehicleResponse>> addVehicle(@RequestBody VehicleRequest request) {
 
-		vehicle = vehicleService.addVehicle(vehicle);
+		VehicleResponse response = vehicleService.addVehicle(request);
 
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Employee Created", vehicle));
-	}
+				.body(ResponseStructure.create(HttpStatus.CREATED.value(), "Employee Created", response));
 
-	@PutMapping("/update-vehicle")
-	public ResponseEntity<ResponseStructure<Vehicle>> updateVehicle(@RequestBody int vehicleId) {
-
-		Vehicle vehicle = vehicleService.updateVehicle(vehicleId);
-
-		return ResponseEntity.status(HttpStatus.OK)
-				.body(ResponseStructure.create(HttpStatus.OK.value(), "Updated Successfully", vehicle));
 	}
 
 	@GetMapping("/find-all-vehicle")
@@ -49,6 +44,15 @@ public class VehicleController {
 
 		return ResponseEntity.status(HttpStatus.FOUND)
 				.body(ResponseStructure.create(HttpStatus.FOUND.value(), "Employees are found", vehicles));
+	}
+	
+	@PutMapping("/update-vehicle")
+	public ResponseEntity<ResponseStructure<VehicleResponse>> updateVehicle(@RequestBody VehicleRequest request, @RequestParam int vehicleId) {
+
+		VehicleResponse response = vehicleService.updateVehicle(request, vehicleId);
+
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(ResponseStructure.create(HttpStatus.OK.value(), "Updated Successfully", response));
 	}
 
 }
