@@ -26,12 +26,12 @@ public class ApplicationExceptionHandler {
 				.body(ErrorStructure.create(HttpStatus.NOT_FOUND.value(), ex.getMessage(), "Failed to upload the Image"));
 	}
 	
-//	@ExceptionHandler
-//	public ResponseEntity<ErrorStructure> handleUserNameNotFoundException(Username ex){
-//		
-//		return ResponseEntity.status(HttpStatus.NOT_FOUND)
-//				.body(ErrorStructure.create(HttpStatus.NOT_FOUND.value(), ex.getMessage(), "User not found"));
-//	}
+	/*@ExceptionHandler
+	public ResponseEntity<ErrorStructure> handleUsernameNotFoundException(UsernameNotFoundException ex){
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND)
+				.body(ErrorStructure.create(HttpStatus.NOT_FOUND.value(), ex.getMessage(), "User not found"));
+	}*/
 	
 	@ExceptionHandler
 	public ResponseEntity<ErrorStructure> handleVehicleNotFoundExcepction(VehicleNotFoundExcepction ex) {
