@@ -1,8 +1,10 @@
 package com.example.vms.security;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.vms.entity.User;
@@ -18,8 +20,14 @@ public class UserDetailsImpl implements UserDetails{
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return null;
+//		UserRole[] roles = UserRole.values();
+//		List<GrantedAuthority> authorities=new ArrayList<>();
+//		for(UserRole role: roles) {
+//			authorities.add(new SimpleGrantedAuthority(role.name()));
+//		}
+//		return authorities;
+		
+		return List.of(new SimpleGrantedAuthority(user.getRole().name()));
 	}
 
 	@Override

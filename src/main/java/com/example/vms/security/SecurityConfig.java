@@ -24,7 +24,7 @@ public class SecurityConfig {
 		return http
 			.csrf(csrf -> csrf.disable()) // csrf - cross-site request forgery - csrf means it is a token mechanism where it will protect from csrf attacks from hackers.            
 			.authorizeHttpRequests(authorize -> authorize
-														.requestMatchers("/customer-register", "/renting-partner-register", "/find-all-vehicle") 
+														.requestMatchers("/customer-register", "/renting-partner-register", "/find-all-vehicle", "/admin-register") 
 														
 //														.permitAll().requestMatchers("/save-vehicle").hasAuthority("ADMIN")
 //									We used @PreAuthorize in Vehicle Controller class on essential methods instead of writing above line for every end point.   
