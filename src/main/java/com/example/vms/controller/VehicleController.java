@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,6 +28,7 @@ public class VehicleController {
 		this.vehicleService = vehicleService;
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/save-vehicle")
 	public ResponseEntity<ResponseStructure<VehicleResponse>> addVehicle(@RequestBody VehicleRequest request) {
 
@@ -46,6 +48,7 @@ public class VehicleController {
 				.body(ResponseStructure.create(HttpStatus.FOUND.value(), "Employees are found", vehicles));
 	}
 	
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/update-vehicle")
 	public ResponseEntity<ResponseStructure<VehicleResponse>> updateVehicle(@RequestBody VehicleRequest request, @RequestParam int vehicleId) {
 
