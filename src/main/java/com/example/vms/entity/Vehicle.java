@@ -1,12 +1,16 @@
 package com.example.vms.entity;
 
+import java.util.List;
+
 import com.example.vms.enums.FuelType;
 import com.example.vms.enums.VehicleType;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Vehicle {
@@ -18,6 +22,9 @@ public class Vehicle {
 	private VehicleType type;
 	private String model;
 	private FuelType fuelType;
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	private List<Image> images;
 	
 	public int getVehicleId() {
 		return vehicleId;
@@ -57,6 +64,14 @@ public class Vehicle {
 	
 	public void setFuelType(FuelType fuelType) {
 		this.fuelType = fuelType;
+	}
+
+	public List<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(List<Image> images) {
+		this.images = images;
 	}
 
 }
